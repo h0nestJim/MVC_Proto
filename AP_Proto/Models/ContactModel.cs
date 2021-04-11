@@ -19,7 +19,7 @@ namespace AP_Proto.Models
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-        [Range(11,13)]
+        [MaxLength(13)]
         public string Tel { get; set; }
     }
 }

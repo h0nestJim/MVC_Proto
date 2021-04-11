@@ -11,6 +11,7 @@ namespace AP_Proto.Data
     {
 
         public DbSet<ContactModel> Contact { get; set; }
+        public DbSet<MeetingModel> Meeting { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
