@@ -4,14 +4,16 @@ using AP_Proto.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AP_Proto.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210411153627_TicketUpdates")]
+    partial class TicketUpdates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace AP_Proto.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AssetModel");
+                    b.ToTable("Asset");
                 });
 
             modelBuilder.Entity("AP_Proto.Models.ContactModel", b =>

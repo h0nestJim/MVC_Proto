@@ -26,6 +26,8 @@ namespace AP_Proto.Models
         public DateTime ClosedDate { get; set; }
 
 
+        public ICollection<UpdateModel> Updates { get; set; }
+
     }
 
     public enum Status

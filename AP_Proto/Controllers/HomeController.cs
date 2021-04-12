@@ -1,31 +1,44 @@
-﻿using AP_Proto.Models;
+﻿using AP_Proto.Data;
+using AP_Proto.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AP_Proto.Controllers
 {
     public class HomeController : Controller
     {
+
+        private readonly ApplicationDbContext _context;
+
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
+            _context = context;
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _context.AssetModel.ToListAsync());
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Privacy()
         {
-            return View();
+            AdminDashboardModel adminviewModel = new AdminDashboardModel();
+
+            adminviewModel.Tickets = await _context.Ticket.ToListAsync();
+            adminviewModel.Assets = await _context.AssetModel.ToListAsync();
+
+            return View(adminviewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

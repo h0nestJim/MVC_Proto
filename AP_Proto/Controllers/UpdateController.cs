@@ -7,25 +7,35 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AP_Proto.Data;
 using AP_Proto.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace AP_Proto.Views
 {
-    public class AssetController : Controller
+    public class UpdateController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AssetController(ApplicationDbContext context)
+        public UpdateController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Asset
+
+
+      
+
+
+
+
+
+        // GET: Update
         public async Task<IActionResult> Index()
         {
-            return View(await _context.AssetModel.ToListAsync());
+            return View(await _context.Updates.ToListAsync());
         }
 
-        // GET: Asset/Details/5
+        // GET: Update/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +43,39 @@ namespace AP_Proto.Views
                 return NotFound();
             }
 
-            var assetModel = await _context.AssetModel
+            var updateModel = await _context.Updates
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (assetModel == null)
+            if (updateModel == null)
             {
                 return NotFound();
             }
 
-            return View(assetModel);
+            return View(updateModel);
         }
 
-        // GET: Asset/Create
+        // GET: Update/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Asset/Create
+        // POST: Update/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,assetType,Note")] AssetModel assetModel)
+        public async Task<IActionResult> Create([Bind("Id,Updated,UserId,Details")] UpdateModel updateModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(assetModel);
+                _context.Add(updateModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(assetModel);
+            return View(updateModel);
         }
 
-        // GET: Asset/Edit/5
+        // GET: Update/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +83,22 @@ namespace AP_Proto.Views
                 return NotFound();
             }
 
-            var assetModel = await _context.AssetModel.FindAsync(id);
-            if (assetModel == null)
+            var updateModel = await _context.Updates.FindAsync(id);
+            if (updateModel == null)
             {
                 return NotFound();
             }
-            return View(assetModel);
+            return View(updateModel);
         }
 
-        // POST: Asset/Edit/5
+        // POST: Update/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,assetType,Note")] AssetModel assetModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Updated,UserId,Details")] UpdateModel updateModel)
         {
-            if (id != assetModel.Id)
+            if (id != updateModel.Id)
             {
                 return NotFound();
             }
@@ -97,12 +107,12 @@ namespace AP_Proto.Views
             {
                 try
                 {
-                    _context.Update(assetModel);
+                    _context.Update(updateModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AssetModelExists(assetModel.Id))
+                    if (!UpdateModelExists(updateModel.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +123,10 @@ namespace AP_Proto.Views
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(assetModel);
+            return View(updateModel);
         }
 
-        // GET: Asset/Delete/5
+        // GET: Update/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +134,30 @@ namespace AP_Proto.Views
                 return NotFound();
             }
 
-            var assetModel = await _context.AssetModel
+            var updateModel = await _context.Updates
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (assetModel == null)
+            if (updateModel == null)
             {
                 return NotFound();
             }
 
-            return View(assetModel);
+            return View(updateModel);
         }
 
-        // POST: Asset/Delete/5
+        // POST: Update/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var assetModel = await _context.AssetModel.FindAsync(id);
-            _context.AssetModel.Remove(assetModel);
+            var updateModel = await _context.Updates.FindAsync(id);
+            _context.Updates.Remove(updateModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AssetModelExists(int id)
+        private bool UpdateModelExists(int id)
         {
-            return _context.AssetModel.Any(e => e.Id == id);
+            return _context.Updates.Any(e => e.Id == id);
         }
     }
 }
